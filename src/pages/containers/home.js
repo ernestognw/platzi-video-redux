@@ -6,6 +6,8 @@ import ModalContainer from '../../widgets/containers/modal';
 import Modal from '../../widgets/components/modal';
 import HandleError from '../../error/containers/handle-error';
 import VideoPlayer from '../../player/containers/video-player';
+import { connect } from 'react-redux';
+import { List as list } from 'immutable';
 
 class Home extends Component {
   state = {
@@ -28,8 +30,9 @@ class Home extends Component {
         <HomeLayout>
           <Related />
           <Categories
-            categories={this.props.data.categories}
+            categories={this.props.categories}
             handleOpenModal={this.handleOpenModal}
+            search={this.props.search}
           />
           {
             this.state.modalVisible &&
@@ -51,4 +54,29 @@ class Home extends Component {
   }
 }
 
-export default Home
+function mapStateToProps(state, props) {
+  const categories = state.get('data').get('categories').map((categoryId) => {
+    return state.get('data').get('entities').get('categories').get(categoryId)
+  })
+
+  let searchResults = list();
+  const search = state.get('data').get('search');
+  if (search) {
+    const mediaList = state.get('data').get('entities').get('media');
+    searchResults = mediaList.filter(item => {
+    return item.get('author').toLowerCase().includes(search.toLowerCase());
+    }).toList();
+  } else {
+    searchResults = false;
+  }
+
+  console.log(categories);
+  console.log(searchResults);
+
+  return {
+    categories: categories,
+    search: searchResults,
+  }
+}
+
+export default connect(mapStateToProps)(Home);

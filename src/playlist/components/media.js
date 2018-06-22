@@ -30,7 +30,7 @@ class Media extends PureComponent {
       }
     }
     return (
-      <div className="Media" onClick={this.handleClick}>
+      <div className="Media tarjeta" onClick={this.handleClick}>
         <div className="Media-cover">
           <img
             src={this.props.cover}
