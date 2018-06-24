@@ -7,7 +7,6 @@ import Media from '../../playlist/components/media';
 const mensajeErrorBusqueda = "Ningún elemento coincide con tu búsqueda";
 
 function Categories(props) {  
-  console.log(props.search);
 
   let searchId = []
   if (props.search){
@@ -19,6 +18,10 @@ function Categories(props) {
   return (
     <div className="Categories">
       <Search />
+      {
+        props.isLoading &&
+        <p>Buscando tus videos favoritos...</p>
+      }
       {/* {
         props.search.map((item) => {
           return <Media 
@@ -33,7 +36,11 @@ function Categories(props) {
         <Category
           key='Busqueda'
           description='Resultado(s) de la búsqueda'
-          title={`${searchId.length} Coincidencias`}
+          title={
+            searchId.length > 1 ?
+            `${searchId.length} Coincidencias` :
+            `${searchId.length} Coincidencia`
+            }
           handleOpenModal={props.handleOpenModal}
           playlist={searchId}
         />

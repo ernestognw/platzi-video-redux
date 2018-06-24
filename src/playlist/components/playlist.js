@@ -4,7 +4,6 @@ import './playlist.css';
 import MediaContainer from '../container/media';
 
 function Playlist(props) {
-  console.log(props.playlist)
   return (
     <div className="Playlist">
       {
